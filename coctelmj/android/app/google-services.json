@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "816470317389",
+    "project_id": "coctelmj",
+    "storage_bucket": "coctelmj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816470317389:android:004a0f92386549dafdff04",
+        "android_client_info": {
+          "package_name": "com.example.coctelmj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816470317389-f703hafkdq0ulsm4cdck7fu34nv4n8bg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_ngZPVh8WBwb6aenK_ZzH82_5AsMMTsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816470317389-f703hafkdq0ulsm4cdck7fu34nv4n8bg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "816470317389-02hhrbtnia547pt9v4jtpm84vunek1qv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coctelmj"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
