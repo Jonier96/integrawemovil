@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Registrarse</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Registrarse</h1>
+    <form id="register-form">
+      <input type="name" id="name" placeholder="Nombre" required>
+      <input type="email" id="email" placeholder="Correo electrónico" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit" href="index.html">Registrarse</button>
+    </form>
+    <p>O <a href="login.html" id="regist-link">Iniciar Sesión</a></p>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+  <script>
+    // Configuración de Firebase 
+    const firebaseConfig = {
+          apiKey: "AIzaSyBjRi0IuCWnNNUnZfwk7dUke5_bG3fnHSM",
+          authDomain: "coctelmj.firebaseapp.com",
+          projectId: "coctelmj",
+          storageBucket: "coctelmj.appspot.com",
+          messagingSenderId: "816470317389",
+          appId: "1:816470317389:web:7bf6334d32c4b7ebfdff04",
+          measurementId: "G-HHRV7VEQ2L"
+        };
+
+    // Inicializa Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    document.getElementById("register-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(function(userCredential) {
+          var user = userCredential.user;
+          window.location.href = "index.html";
+        })
+        .catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.error(errorMessage);
+        });
+    });
+
+    document.getElementById("login-link").addEventListener("click", function(event) {
+      event.preventDefault();
+      window.location.href = "login.html"; // Redirige a la página de registro
+    });
+  </script>
+</body>
+</html>
