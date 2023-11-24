@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.4 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,7 +28,9 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+
 dependencies:
+
   flutter:
     sdk: flutter
     
@@ -53,6 +55,9 @@ dependencies:
   firebase_auth: ^4.7.3
 
   cloud_firestore: ^4.8.5
+  firebase_database: ^10.2.5
+  persistent_bottom_nav_bar: ^4.0.2
+  url_launcher: ^6.0.13
 
 
 
@@ -68,6 +73,7 @@ flutter_lints: ^2.0.0
 
 # The following section is specific to Flutter packages.
 flutter:
+  
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -76,9 +82,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/coctel.png
-    - assets/vaso.png
-    - assets/cerveza.png
+    - assets/
+    - assets/cocteles/
+    - assets/shots/
+    - assets/naturales/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

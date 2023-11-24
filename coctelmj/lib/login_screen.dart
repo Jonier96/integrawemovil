@@ -82,6 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             email: emailController.text,
                             password: passwordController.text,
                           );
+                          // Ignorar la advertencia específica de variable no utilizada
+                          // ignore: unused_local_variable
+                          String userId = userCredential.user!.uid;
+
                           // Iniciar sesión con éxito, navegar a la pantalla principal
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(

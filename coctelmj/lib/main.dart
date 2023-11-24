@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Asegúrate de que la ruta sea correcta
+import 'registre_screen.dart';
 import 'package:firebase_core/firebase_core.dart'; // Importa el paquete de Firebase
 import 'firebase_options.dart'; // Importa tu archivo de opciones de Firebase
 
@@ -19,9 +20,13 @@ class MyApp extends StatelessWidget {
       title: 'Mi Aplicación de Cócteles',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.blue[900], // Fondo azul noche
+        scaffoldBackgroundColor: Colors.blue[900],
       ),
-      home: LoginScreen(), // Cambia esto por tu clase de pantalla principal
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+      },
     );
   }
 }

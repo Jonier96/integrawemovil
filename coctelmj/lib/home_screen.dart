@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../constants.dart';
+
+class Producto {
+  final String imagen;
+
+  Producto(this.imagen);
+}
+
+class CarritoScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Carrito de Compras'),
+      ),
+      body: Center(
+        child: Text('Contenido del carrito aquí'),
+      ),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,163 +29,134 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
+  List<Widget> _buildScreens() {
+    List<List<String>> categorias = [
+      List.generate(8, (index) => Constants.coctelesImage(index)),
+      List.generate(6, (index) => Constants.shotsImage(index)),
+      List.generate(6, (index) => Constants.naturalesImage(index)),
+    ];
 
-  // Inicializar Firebase y obtener el usuario actual
-  @override
-  void initState() {
-    super.initState();
-    _initializeFirebase();
+    return categorias.map((categoria) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Categoría'),
+        ),
+        body: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemCount: categoria.length,
+          itemBuilder: (context, index) {
+            final producto = Producto(categoria[index]);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 120,
+                  height: 120,
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 3,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Image.asset(
+                    producto.imagen,
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
+                SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () async {
+                    String mensaje = 'Quiero este coctel: ${producto.imagen}';
+                    String url =
+                        'https://wa.me/3206925172?text=${Uri.encodeComponent(mensaje)}';
+                    Uri uri =
+                        Uri.parse(url); // Convierte la cadena a un objeto Uri
+
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri);
+                    } else {
+                      print('No se pudo abrir WhatsApp.');
+                    }
+                  },
+                  child: Text('Pedir'),
+                ),
+              ],
+            );
+          },
+        ),
+      );
+    }).toList();
   }
 
-  Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp();
-    final user = _auth.currentUser;
-    setState(() {
-      _user = user;
-    });
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: Image.asset('assets/cocteles.png', width: 30, height: 30),
+        title: 'Cocteles',
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Image.asset('assets/shots.png', width: 30, height: 30),
+        title: 'Shots',
+        activeColorPrimary: Color.fromARGB(255, 54, 71, 218),
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Image.asset('assets/naturales.png', width: 30, height: 30),
+        title: 'Naturales',
+        activeColorPrimary: Color.fromARGB(255, 147, 46, 220),
+        inactiveColorPrimary: Colors.grey,
+      ),
+    ];
   }
-
-  // Lista de categorías
-  final List<String> categories = [
-    "Cocteles",
-    "Bebidas Naturales",
-    "Otros",
-    // Agrega más categorías según sea necesario
-  ];
-
-  // Categoría seleccionada
-  String selectedCategory = "Cocteles";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null, // Quita el app bar
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                selectedCategory,
-                style: TextStyle(fontSize: 24.0),
-              ),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {
-                  // Abre el menú lateral
-                  Scaffold.of(context).openDrawer();
-                },
-              ),
-            ),
-            IconButton(
-              icon: Icon(Icons.apps), // Cambia el icono a "apps"
-              onPressed: () {
-                // Muestra el menú flotante de categorías
-                _showCategoryMenu(context);
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {
-                // Navegar a la pantalla del carrito de pedidos
-                Navigator.of(context).pushNamed('/cart');
-              },
-            ),
-          ],
+      appBar: null,
+      body: PersistentTabView(
+        context,
+        controller: PersistentTabController(initialIndex: 0),
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        backgroundColor: Colors.white,
+        handleAndroidBackButtonPress: true,
+        resizeToAvoidBottomInset: true,
+        stateManagement: true,
+        hideNavigationBarWhenKeyboardShows: true,
+        decoration: NavBarDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          colorBehindNavBar: Colors.white,
         ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(_user?.displayName ?? ''),
-              accountEmail: Text(_user?.email ?? ''),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Text(
-                  _user?.displayName?.substring(0, 1) ?? '',
-                  style: TextStyle(fontSize: 40.0),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Historial de Pedidos'),
-              onTap: () {
-                // Navegar a la pantalla de historial de pedidos
-                Navigator.pop(context);
-                Navigator.of(context).pushNamed('/order_history');
-              },
-            ),
-            ListTile(
-              title: Text('Editar Perfil'),
-              onTap: () {
-                // Navegar a la pantalla de edición de perfil
-                Navigator.pop(context);
-                Navigator.of(context).pushNamed('/edit_profile');
-              },
-            ),
-            ListTile(
-              title: Text('Cerrar Sesión'),
-              onTap: () async {
-                // Cerrar sesión
-                await _auth.signOut();
-                Navigator.of(context).pushReplacementNamed('/login');
-              },
-            ),
-          ],
+        popAllScreensOnTapOfSelectedTab: true,
+        itemAnimationProperties: ItemAnimationProperties(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+        screenTransitionAnimation: ScreenTransitionAnimation(
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
         ),
       ),
     );
   }
+}
 
-  // Función para mostrar el menú flotante de categorías
-  void _showCategoryMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 120,
-          child: ListView.builder(
-            itemCount: categories.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return _buildCategoryButton(context, categories[index]);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  // Función para construir un botón de categoría en el menú flotante
-  Widget _buildCategoryButton(BuildContext context, String categoryName) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        onPressed: () {
-          // Cambia la categoría seleccionada
-          setState(() {
-            selectedCategory = categoryName;
-          });
-          Navigator.pop(context);
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.blue, // Color de fondo del botón
-          onPrimary: Colors.white, // Color del texto del botón
-        ),
-        child: Text(categoryName),
-      ),
-    );
-  }
+void main() {
+  runApp(MaterialApp(
+    home: HomeScreen(),
+  ));
 }
