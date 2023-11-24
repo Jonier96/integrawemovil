@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Coctel mj</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" />
+	<link rel="icon" href="img/logo.png" type="img/x-icon">    
+	<link href="css/log.css" rel="stylesheet" />
+</head>
+<body2>
+
+    <div class="container2">
+      <div class="backbox">
+        <div class="loginMsg">
+          <div class="textcontent">
+            <p class="title">No tienes cuenta?</p>
+            <p>Crear una nueva cuenta no tarda Puedes hacerlo dando clic en</p>
+            <button  id="cambiarPagina" id="switch1">Registrarse</button>
+            <script>
+                document.getElementById("cambiarPagina").addEventListener("click", function() {
+                    window.location.href = "resg.html";
+                });
+            </script>
+          </div>
+        </div>
+      </div>
+  
+      <div class="frontbox">
+        <div class="login">
+          <h2>INICIAR SESION</h2>
+          <div class="inputbox">
+            <input type="email" id="correo" placeholder="   Correo Electrónico" required>
+            <input type="password" id="contraseña" placeholder="    Contraseña" required>
+          </div>
+          <p>FORGET PASSWORD?</p>
+          <button type="button" id="botonInicioSesion">Iniciar</button>
+        </div>
+      </div>
+    </form>
+  
+    <!-- Agrega la configuración de Firebase en tu proyecto -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Configura Firebase con tu información -->
+    <script>
+      localStorage.getItem('idUsuario');
+      console.log(localStorage.getItem('idUsuario'))
+      const firebaseConfig = {
+            apiKey: "AIzaSyBjRi0IuCWnNNUnZfwk7dUke5_bG3fnHSM",
+            authDomain: "coctelmj.firebaseapp.com",
+            projectId: "coctelmj",
+            storageBucket: "coctelmj.appspot.com",
+            messagingSenderId: "816470317389",
+            appId: "1:816470317389:web:7bf6334d32c4b7ebfdff04",
+            measurementId: "G-HHRV7VEQ2L"
+          };
+  
+      // Inicializa Firebase
+      firebase.initializeApp(firebaseConfig);
+  
+      // Función para iniciar sesión con Firebase
+      function iniciarSesion() {
+        const correo = document.getElementById('correo').value;
+        const contraseña = document.getElementById('contraseña').value;
+  
+  
+        // Llama al método de inicio de sesión de Firebase
+        firebase.auth().signInWithEmailAndPassword(correo, contraseña)
+          .then((userCredential) => {
+            // Autenticación exitosa, redirige al usuario a index.html
+            window.location.href = 'index.html';
+          })
+          .catch((error) => {
+            // Si la autenticación falla, muestra un mensaje de error
+            alert('Error de inicio de sesión: ' + error.message);
+          });
+      }
+  
+      const botonInicioSesion = document.getElementById('botonInicioSesion');
+      botonInicioSesion.addEventListener('click', iniciarSesion);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="js/log.js"></script>
+
+  </body>
+  </html>

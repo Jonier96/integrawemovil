@@ -9,14 +9,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #ffffff60;
 }
 
 .container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -29,7 +29,7 @@ input {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #ffffff69;
   border-radius: 3px;
 }
 
@@ -67,11 +67,12 @@ index.html
 
 
 */
-
+.container{
+  background-color: #c795f0;
+}
 ul, nav, body, h1, h2, h4, h6, p, figure {
   margin: center;
   padding: 0;
-
 }
 
 a, button { transition: all 0.3s ease; }
@@ -103,6 +104,7 @@ html {
 }
 
 .row {
+  background-color: #c8c6c936;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
@@ -255,12 +257,12 @@ html {
 body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 17px;
-  background-color: #ccc;
+  background-color: #0c0322;
   overflow-x: hidden;
 }
 
 .container {
-  background-color: white;
+  background-color: #e6e8e9;
 }
 
 p, address {
@@ -476,7 +478,8 @@ p, address {
   text-align: center;
   margin-bottom: 40px;
 }
-/* Estilo para los botones de navegación fijos en la parte superior */
+
+/* Estilo para los botones de navegación fijos en la parte superior 
 .tm-paging-links-sticky {
   position: fixed;
   top: 0;
@@ -484,29 +487,33 @@ p, address {
   width: 100%;
   z-index: 9999;
 }
-/* Ajustar estilos del botón de carrito de compras */
+
+
+/* Ajustar estilos del botón de carrito de compras 
 .tm-paging-links-sticky .tm-paging-link[data-page="cart"] {
-  padding: 10px 15px; /* Ajusta el espaciado según sea necesario */
-  background-color: #f8f8f8; /* Cambia el color de fondo */
-  border-radius: 5px; /* Ajusta el radio de borde si es necesario */
-  margin-right: 10px; /* Añade margen a la derecha para separarlo de los otros botones */
-  color: #333; /* Cambia el color del ícono */
-}
+  padding: 10px 15px;  Ajusta el espaciado según sea necesario 
+  background-color: #f8f8f8;  Cambia el color de fondo 
+  border-radius: 5px;  Ajusta el radio de borde si es necesario 
+  margin-right: 10px;  Añade margen a la derecha para separarlo de los otros botones 
+  color: #333;  Cambia el color del ícono 
+} 
 
 
-/* Añadir margen superior para dar espacio a los contenidos */
+
+Añadir margen superior para dar espacio a los contenidos 
 .tm-main-content {
-  margin-top: 100px; /* Ajusta el valor según sea necesario */
+  margin-top: 100px; Ajusta el valor según sea necesario 
 }
 
-/* Ajustar estilos del botón de carrito de compras */
+/* Ajustar estilos del botón de carrito de compras 
 .tm-paging-links-sticky .tm-paging-link[data-page="cart"] {
-  padding: 20px 20px; /* Ajusta el espaciado según sea necesario */
-  background-color: #f8f8f8; /* Cambia el color de fondo */
+  padding: 20px 20px; Ajusta el espaciado según sea necesario 
+  background-color: #f8f8f8; Cambia el color de fondo 
   margin-left: 10px;
-  margin-right: 90px; /* Añade margen a la derecha para separarlo de los otros botones */
-  color: #ff0000; /* Cambia el color del ícono */
+  margin-right: 90px;  Añade margen a la derecha para separarlo de los otros botones 
+  color: #ff0000;  Cambia el color del ícono 
 }
+*/
 
 .tm-paging-item {
   list-style: none;
@@ -942,3 +949,4 @@ address {
 .panel p {
   padding: 5px 20px 30px;
 }
+

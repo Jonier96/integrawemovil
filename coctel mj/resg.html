@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Coctel mj</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" />
+	<link rel="icon" href="img/logo.png" type="img/x-icon">    
+	<link href="css/log.css" rel="stylesheet" />
+</head>
+<body2>
+
+    <div class="container2">
+      <div class="backbox">
+        <div class="loginMsg">
+          <div class="textcontent">
+            <p class="title">Ya tienes cuenta?</p>
+            <p>Inicia sesion y agrega tus pedidos Puedes hacerlo dando clic en</p>
+            <button  id="regresarPagina" id="switch2">Iniciar</button>
+            <script>
+                document.getElementById("regresarPagina").addEventListener("click", function() {
+                    window.location.href = "log.html";
+                });
+            </script>
+          </div>
+        </div>
+      </div>
+    
+    <form id="formularioRegistro">
+      <div class="frontbox">
+        <div class="login">
+          <h2>REGISTRO</h2>
+          <div class="inputbox">
+            <input type="email" id="registroCorreo" placeholder="    Correo Electrónico" required>
+            <input type="password" id="registroContraseña" placeholder="   Contraseña" required>
+            <input type="text" id="registroNombre" placeholder="    Nombre" required>
+            <input type="number" id="registroNumero" placeholder="    Numero" required>
+            <button type="button" id="botonRegistro">Registrarse</button>
+
+            </div>
+        </div>
+      </div>
+    </form>
+
+<!-- Agrega la configuración de Firebase en tu proyecto -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+
+<!-- Configura Firebase con tu información -->
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBjRi0IuCWnNNUnZfwk7dUke5_bG3fnHSM",
+        authDomain: "coctelmj.firebaseapp.com",
+        projectId: "coctelmj",
+        storageBucket: "coctelmj.appspot.com",
+        messagingSenderId: "816470317389",
+        appId: "1:816470317389:web:7bf6334d32c4b7ebfdff04",
+        measurementId: "G-HHRV7VEQ2L"
+    };
+
+    // Inicializa Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    let idUsario;
+
+    // Función para registrar un nuevo usuario
+    function registrarUsuario() {
+        const correo = document.getElementById('registroCorreo').value;
+        const numero = document.getElementById('registroNumero').value;
+        const nombre = document.getElementById('registroNombre').value;
+        const contraseña = document.getElementById('registroContraseña').value;
+
+        const datosUsuario = {
+        correo: correo,
+        numero: numero,
+        nombre: nombre,
+        // Agrega otros campos según sea necesario
+    };
+
+        // Llama al método de registro de Firebase
+        firebase.auth().createUserWithEmailAndPassword(correo, contraseña)
+        .then((userCredential) => {
+            console.log('userCredential')
+            console.log(userCredential.user.uid)
+            idUsario = userCredential.user.uid;
+            localStorage.setItem('idUsuario', idUsario);
+
+            // Registro exitoso, redirige al usuario a la página de inicio de sesión
+            alert('Registro exitoso. Por favor, inicia sesión.');
+            firebase.firestore().collection('users').doc(idUsario).set(datosUsuario)
+            .then(function () {
+                console.log('Información del usuario agregada correctamente.');
+            })
+            .catch(function (error) {
+                console.error('Error al agregar información del usuario:', error);
+            });
+            window.location.href = 'log.html';
+        })
+        .catch((error) => {
+            // Si el registro falla, muestra un mensaje de error
+            alert('Error de registro: ' + error.message);
+        });
+    }
+
+    const botonRegistro = document.getElementById('botonRegistro');
+    botonRegistro.addEventListener('click', registrarUsuario);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="js/log.js"></script>
+
+  </body>
+  </html>
